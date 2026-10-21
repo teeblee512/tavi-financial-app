@@ -1,0 +1,189 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  html {
+    font-family: 'Inter', system-ui, sans-serif;
+    background-color: #F8FAFC;
+    color: #0F172A;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  #root {
+    min-height: 100vh;
+  }
+}
+
+@layer components {
+  /* Demo banner indicator */
+  .demo-badge {
+    @apply fixed top-0 left-0 right-0 z-50 bg-amber-500 text-white text-center py-1 text-xs font-semibold tracking-wide;
+  }
+
+  /* Skeleton loading */
+  .skeleton {
+    @apply bg-slate-200 animate-skeleton rounded;
+  }
+
+  /* Account number display */
+  .account-number {
+    @apply font-bold text-2xl tracking-widest text-midnight-navy;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Balance display */
+  .balance-amount {
+    font-size: 32px;
+    line-height: 40px;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Status chips */
+  .status-success {
+    @apply bg-green-100 text-green-800 text-xs font-semibold px-2 py-0.5 rounded-full;
+  }
+  .status-pending {
+    @apply bg-amber-100 text-amber-800 text-xs font-semibold px-2 py-0.5 rounded-full;
+  }
+  .status-failed {
+    @apply bg-red-100 text-red-800 text-xs font-semibold px-2 py-0.5 rounded-full;
+  }
+  .status-reversed {
+    @apply bg-slate-100 text-slate-700 text-xs font-semibold px-2 py-0.5 rounded-full;
+  }
+
+  /* Cards */
+  .card {
+    @apply bg-white rounded-card border border-border-color shadow-sm;
+  }
+
+  .card-hero {
+    @apply bg-white rounded-hero border border-border-color shadow-md;
+  }
+
+  /* Primary button */
+  .btn-primary {
+    @apply bg-action-green text-white font-semibold rounded-btn py-3 px-6 transition-all duration-150
+           hover:bg-primary-green active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed
+           flex items-center justify-center gap-2 min-h-[52px];
+  }
+
+  /* Secondary button */
+  .btn-secondary {
+    @apply bg-pale-mint text-primary-green font-semibold rounded-btn py-3 px-6 transition-all duration-150
+           hover:bg-mint active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed
+           flex items-center justify-center gap-2 min-h-[52px];
+  }
+
+  /* Ghost button */
+  .btn-ghost {
+    @apply text-primary-green font-semibold rounded-btn py-3 px-4 transition-all duration-150
+           hover:bg-pale-mint active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed
+           flex items-center justify-center gap-2;
+  }
+
+  /* Input field */
+  .input-field {
+    @apply bg-input-bg border border-border-color rounded-input px-4 py-3 text-sm text-midnight-navy
+           placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-action-green focus:border-action-green
+           transition-all duration-150 w-full min-h-[48px];
+  }
+
+  /* Bottom navigation */
+  .bottom-nav {
+    @apply fixed bottom-0 left-0 right-0 bg-white border-t border-border-color z-40;
+    padding-bottom: env(safe-area-inset-bottom, 0);
+  }
+
+  /* Page container */
+  .page-container {
+    @apply max-w-[430px] mx-auto relative;
+  }
+
+  /* Scrollable main on mobile */
+  .mobile-scroll {
+    @apply overflow-y-auto;
+    height: calc(100vh - 64px - 76px);
+    padding-bottom: env(safe-area-inset-bottom, 20px);
+  }
+
+  /* Horizontal scroll carousel */
+  .carousel-scroll {
+    @apply flex gap-3 overflow-x-auto pb-2;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .carousel-scroll::-webkit-scrollbar {
+    display: none;
+  }
+  .carousel-card {
+    scroll-snap-align: start;
+    flex-shrink: 0;
+  }
+
+  /* Transaction row */
+  .tx-row {
+    @apply flex items-center gap-3 px-4 py-4 border-b border-border-color last:border-0
+           hover:bg-slate-50 cursor-pointer transition-colors duration-150;
+    min-height: 64px;
+  }
+
+  /* Debit / Credit amount colours */
+  .amount-debit {
+    @apply text-error font-semibold;
+  }
+  .amount-credit {
+    @apply text-success font-semibold;
+  }
+
+  /* Action tile */
+  .action-tile {
+    @apply flex flex-col items-center gap-2 p-3 rounded-card cursor-pointer
+           transition-all duration-150 hover:bg-pale-mint active:scale-95;
+    min-width: 72px;
+  }
+
+  .action-tile-icon {
+    @apply w-11 h-11 rounded-icon bg-pale-mint flex items-center justify-center text-action-green;
+  }
+
+  /* Desktop sidebar */
+  .sidebar {
+    @apply fixed left-0 top-0 bottom-0 bg-midnight-navy z-40 transition-all duration-200;
+  }
+
+  /* Focus ring */
+  :focus-visible {
+    @apply outline-none ring-2 ring-action-green ring-offset-2;
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Safe area support */
+.safe-bottom {
+  padding-bottom: env(safe-area-inset-bottom, 16px);
+}
