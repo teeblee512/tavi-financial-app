@@ -19,6 +19,7 @@ const SIDEBAR_ITEMS = [
   { label: 'Ask AI', to: '/ask-ai', icon: 'ai' },
   { label: 'Support', to: '/support', icon: 'support' },
   { label: 'Settings', to: '/settings', icon: 'settings' },
+  { label: 'Public Website', to: '/landing', icon: 'website' },
 ];
 
 function SidebarIcon({ name, active }: { name: string; active: boolean }) {
@@ -75,6 +76,13 @@ function SidebarIcon({ name, active }: { name: string; active: boolean }) {
       <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke={color} strokeWidth={2}>
         <circle cx="12" cy="12" r="3" />
         <path strokeLinecap="round" strokeLinejoin="round" d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z" />
+      </svg>
+    ),
+    website: (
+      <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke={color} strokeWidth={2}>
+        <circle cx="12" cy="12" r="10" />
+        <line x1="2" y1="12" x2="22" y2="12" />
+        <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
       </svg>
     ),
   };
@@ -176,6 +184,9 @@ export function DesktopShell({ children }: DesktopShellProps) {
         {/* Top bar */}
         <header className="sticky top-6 z-30 bg-white border-b border-border-color h-[72px] flex items-center px-8 gap-4">
           <div className="flex-1" />
+          <NavLink to="/landing" className="text-xs font-semibold text-action-green bg-pale-mint px-3 py-1.5 rounded-full hover:bg-mint transition-colors">
+            Public Website ↗
+          </NavLink>
           <NavLink to="/notifications" className="relative p-2 hover:bg-slate-100 rounded-icon transition-colors">
             <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="#475569" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />

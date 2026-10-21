@@ -8,6 +8,7 @@ import { DemoBanner } from '../components/ui/DemoBanner';
 import { useWindowWidth } from '../hooks/useWindowWidth';
 
 // Pages
+import { LandingPage } from '../features/landing/LandingPage';
 import { OnboardingPage } from '../features/onboarding/OnboardingPage';
 import { LoginPage } from '../features/onboarding/LoginPage';
 import { HomePage } from '../features/home/HomePage';
@@ -45,17 +46,20 @@ function AppRoutes() {
     <>
       <DemoBanner />
       <Routes>
-        {/* Public routes */}
+        {/* Public Marketing / Landing Page */}
+        <Route path="/landing" element={<LandingPage />} />
+
+        {/* Public Auth routes */}
         <Route
           path="/onboarding"
-          element={isAuthenticated ? <Navigate to="/" replace /> : <OnboardingPage />}
+          element={<OnboardingPage />}
         />
         <Route
           path="/login"
-          element={isAuthenticated ? <Navigate to="/" replace /> : <LoginPage />}
+          element={<LoginPage />}
         />
 
-        {/* Protected routes */}
+        {/* Protected App routes */}
         <Route
           path="/*"
           element={
@@ -114,7 +118,7 @@ function AppRoutes() {
             </AuthGate>
           }
         />
-        <Route path="*" element={<Navigate to="/login" replace />} />
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
       <ToastContainer />
     </>

@@ -1,15 +1,17 @@
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useApp } from '../../app/AppContext';
 import { formatAccountNumber } from '../../services/phoneUtils';
-import { formatNaira } from '../../services/formatters';
 import { useClipboard } from '../../hooks/useClipboard';
 import { PageHeader, Card, Button, InfoBanner, StatusBadge } from '../../components/ui';
 import { DemoChip } from '../../components/ui/DemoBanner';
+import type { AccountProvisioningStatus } from '../../types';
 
 export function AccountDetailsPage() {
-  const { account, balance } = useApp();
+  const { account, user, setAccountProvisioningStatus, showToast } = useApp();
   const { copyToClipboard } = useClipboard();
   const navigate = useNavigate();
+  const [isSimulating, setIsSimulating] = useState(false);
 
   const handleCopy = () => {
     if (account?.providerAccountNumber) {
@@ -20,137 +22,214 @@ export function AccountDetailsPage() {
   const handleShare = () => {
     if (!account) return;
     const text = [
-      `Account Name: ${account.accountName}`,
+      `TAVI Account Details:`,
+      `Name: ${account.accountName}`,
       `Account Number: ${account.providerAccountNumber}`,
-      `Bank: ${account.providerName}`,
+      `Provider: ${account.providerName}`,
       `Currency: ${account.currency}`,
+      `Status: ${account.provisioningStatus.toUpperCase()}`,
       '',
-      '⚠️ DEMO ACCOUNT — Not a real bank account.',
+      'Note: This is an interactive demo prototype on synthetic data.',
     ].join('\n');
+
     if (navigator.share) {
-      navigator.share({ title: 'My TAVI Account Details', text });
+      navigator.share({ title: 'My TAVI Account Details', text }).catch(() => {});
     } else {
-      copyToClipboard(text, 'Account details copied');
+      copyToClipboard(text, 'Account details copied for sharing');
     }
   };
 
-  const provisioningStatusMeta: Record<string, { label: string; color: string }> = {
-    active: { label: 'Active', color: 'text-success' },
-    pending: { label: 'Setting up your account…', color: 'text-warning' },
-    not_started: { label: 'Not started', color: 'text-slate-500' },
-    conflict: { label: 'Account conflict — contact support', color: 'text-error' },
-    failed: { label: 'Setup failed — contact support', color: 'text-error' },
-    suspended: { label: 'Account suspended', color: 'text-error' },
+  const statusConfigs: Record<AccountProvisioningStatus, { badge: string; desc: string; bannerType: 'info' | 'warning' | 'success' | 'error' }> = {
+    active: {
+      badge: 'Active & Verified',
+      desc: 'Account is operational and ready to receive deposits.',
+      bannerType: 'success',
+    },
+    pending: {
+      badge: 'Setting up your account…',
+      desc: 'Waiting for provider confirmation. Operational number will display once confirmed.',
+      bannerType: 'warning',
+    },
+    conflict: {
+      badge: 'Provider Conflict',
+      desc: 'This phone-linked number is mapped to an existing profile at the institution.',
+      bannerType: 'error',
+    },
+    failed: {
+      badge: 'Provisioning Failed',
+      desc: 'We could not confirm your account details yet. Please retry or contact support.',
+      bannerType: 'error',
+    },
+    not_started: {
+      badge: 'Not Started',
+      desc: 'Onboarding verification not completed.',
+      bannerType: 'info',
+    },
+    suspended: {
+      badge: 'Suspended',
+      desc: 'Account is temporarily restricted.',
+      bannerType: 'error',
+    },
   };
 
-  const statusMeta = account
-    ? provisioningStatusMeta[account.provisioningStatus]
-    : provisioningStatusMeta.not_started;
+  const currentConfig = account ? statusConfigs[account.provisioningStatus] : statusConfigs.not_started;
+
+  const handleSimulateStatus = (st: AccountProvisioningStatus) => {
+    setIsSimulating(true);
+    setTimeout(() => {
+      setAccountProvisioningStatus(st);
+      setIsSimulating(false);
+      showToast(`Account provisioning status changed to: ${st.toUpperCase()}`, 'info');
+    }, 400);
+  };
 
   return (
     <div className="flex flex-col bg-app-bg min-h-full">
-      <PageHeader title="Account details" onBack={() => navigate(-1)} />
+      <PageHeader title="Account Details" onBack={() => navigate(-1)} />
 
-      <div className="px-5 py-6 flex flex-col gap-5">
-        {/* Demo notice */}
+      <div className="p-5 flex flex-col gap-5 max-w-xl mx-auto w-full">
+        {/* Top Notice */}
         <InfoBanner
-          type="warning"
-          message="DEMO: This account is simulated for demonstration. The account number shown is not a real bank account."
+          type={currentConfig.bannerType}
+          message={`Status: ${currentConfig.badge} — ${currentConfig.desc}`}
         />
 
-        {/* Account Number Card */}
-        <div className="card p-5">
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="text-base font-semibold text-midnight-navy">TAVI Account</h2>
+        {/* Account Details Card */}
+        <Card className="p-6 space-y-5">
+          <div className="flex justify-between items-start">
+            <div>
+              <p className="text-xs uppercase text-slate-400 font-semibold tracking-wider">Account Identifier</p>
+              <h2 className="text-xl font-bold text-midnight-navy mt-0.5">{account?.accountName}</h2>
+            </div>
             <DemoChip />
           </div>
 
-          <div className="space-y-3">
+          <div className="p-4 bg-input-bg rounded-xl space-y-3">
             <div>
-              <p className="text-xs text-slate-400 mb-0.5">Account name</p>
-              <p className="font-semibold text-midnight-navy">{account?.accountName}</p>
-            </div>
-            <div>
-              <p className="text-xs text-slate-400 mb-0.5">Bank / Provider</p>
-              <p className="font-semibold text-midnight-navy">{account?.providerName}</p>
-            </div>
-            <div>
-              <p className="text-xs text-slate-400 mb-0.5">Account number</p>
-              <p className="text-2xl font-bold tracking-widest text-midnight-navy">
-                {account ? formatAccountNumber(account.providerAccountNumber) : '—'}
-              </p>
-              <p className="text-xs text-slate-400 mt-1">
-                Phone-linked pattern from 07074100290
-              </p>
-            </div>
-            <div>
-              <p className="text-xs text-slate-400 mb-0.5">Account type</p>
-              <p className="font-medium text-midnight-navy">{account?.accountType} · {account?.currency}</p>
-            </div>
-            <div>
-              <p className="text-xs text-slate-400 mb-0.5">Account status</p>
-              <p className={`font-medium text-sm ${statusMeta.color}`}>{statusMeta.label}</p>
-            </div>
-            {account?.patternMatchConfirmed && (
-              <div className="flex items-center gap-2 text-xs text-success bg-green-50 rounded-input px-3 py-2">
-                <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                </svg>
-                Phone-linked pattern confirmed (demo)
+              <span className="text-xs text-slate-500">Phone-Linked Account Number</span>
+              <div className="text-2xl font-extrabold tracking-widest text-midnight-navy mt-0.5">
+                {account?.provisioningStatus === 'active' 
+                  ? formatAccountNumber(account.providerAccountNumber)
+                  : account?.provisioningStatus === 'pending'
+                  ? '•••• ••• ••• (Setting up)'
+                  : 'Unavailable'}
               </div>
-            )}
+            </div>
+
+            <div className="grid grid-cols-2 gap-3 text-xs pt-2 border-t border-border-color">
+              <div>
+                <span className="text-slate-500">Account Provider</span>
+                <p className="font-semibold text-midnight-navy">{account?.providerName}</p>
+              </div>
+              <div>
+                <span className="text-slate-500">Currency</span>
+                <p className="font-semibold text-midnight-navy">{account?.currency} (Nigerian Naira)</p>
+              </div>
+              <div>
+                <span className="text-slate-500">Registered Mobile</span>
+                <p className="font-semibold text-midnight-navy">{user?.normalizedPhone || '+2347074100290'}</p>
+              </div>
+              <div>
+                <span className="text-slate-500">Mapping Rule</span>
+                <p className="font-semibold text-action-green">07074100290 → 7074100290</p>
+              </div>
+            </div>
           </div>
 
-          {/* Actions */}
-          <div className="flex gap-3 mt-5">
-            <Button variant="primary" size="md" className="flex-1" onClick={handleCopy}>
-              <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                <rect x="9" y="9" width="13" height="13" rx="2" />
-                <path strokeLinecap="round" strokeLinejoin="round" d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1" />
-              </svg>
-              Copy number
+          {/* Action buttons */}
+          <div className="grid grid-cols-2 gap-3">
+            <Button 
+              variant="primary" 
+              fullWidth 
+              onClick={handleCopy}
+              disabled={account?.provisioningStatus !== 'active'}
+            >
+              Copy Number
             </Button>
-            <Button variant="secondary" size="md" className="flex-1" onClick={handleShare}>
-              <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
-              </svg>
-              Share
+            <Button 
+              variant="secondary" 
+              fullWidth 
+              onClick={handleShare}
+            >
+              Share Details
             </Button>
           </div>
-        </div>
+        </Card>
 
-        {/* Provisioning info */}
-        <div className="card p-4">
-          <h3 className="font-semibold text-sm text-midnight-navy mb-3">About your account number</h3>
-          <div className="space-y-2 text-sm text-slate-600">
-            <p>Your account number follows a phone-linked pattern:</p>
-            <div className="bg-pale-mint rounded-input px-3 py-2 text-sm font-mono text-midnight-navy">
-              <span className="text-slate-400">Phone:</span> 07074100290<br />
-              <span className="text-slate-400">Pattern:</span> 7074100290
-            </div>
-            <p className="text-xs text-slate-500">
-              In production, this number is only shown as operational after your authorised account 
-              provider confirms the mapping. The provider's confirmed number is always the authoritative one.
-            </p>
+        {/* Interactive Provider State Switcher (Mandated by Section 5 & Phase B) */}
+        <Card className="p-5 space-y-3 border-2 border-pale-mint">
+          <div className="flex justify-between items-center">
+            <h3 className="font-bold text-sm text-midnight-navy">Simulate Account Provisioning States</h3>
+            <span className="text-[10px] bg-pale-mint text-primary-green px-2 py-0.5 rounded-full font-bold">
+              QA Test Panel
+            </span>
           </div>
-        </div>
+          <p className="text-xs text-slate-500">
+            Per the Master Product Spec, test how TAVI reacts to provider confirmation, ongoing setup, conflict, or failure:
+          </p>
+          <div className="grid grid-cols-2 gap-2 pt-1">
+            <button
+              onClick={() => handleSimulateStatus('active')}
+              disabled={isSimulating}
+              className={`p-2.5 rounded-btn text-xs font-semibold text-left border transition-all ${
+                account?.provisioningStatus === 'active'
+                  ? 'bg-action-green text-white border-action-green shadow-sm'
+                  : 'bg-white hover:bg-slate-50 border-border-color text-slate-700'
+              }`}
+            >
+              🟢 Active (Confirmed)
+              <p className="text-[10px] opacity-80 font-normal">Normal operational account</p>
+            </button>
 
-        {/* Provisioning states demo */}
-        <div className="card p-4">
-          <h3 className="font-semibold text-sm text-midnight-navy mb-3">Account provisioning states</h3>
-          <div className="space-y-2">
-            {[
-              { status: 'active', label: '✅ Active — provider confirmed', desc: 'Account is ready to receive funds.' },
-              { status: 'pending', label: '⏳ Pending — setting up', desc: 'Account details are being set up.' },
-              { status: 'conflict', label: '⚠️ Conflict', desc: 'Another account uses this number. Contact support.' },
-              { status: 'failed', label: '❌ Failed', desc: 'Setup could not be completed. We could not confirm your account details yet.' },
-            ].map((s) => (
-              <div key={s.status} className="text-xs bg-slate-50 rounded-input px-3 py-2">
-                <p className="font-medium text-midnight-navy">{s.label}</p>
-                <p className="text-slate-500 mt-0.5">{s.desc}</p>
-              </div>
-            ))}
+            <button
+              onClick={() => handleSimulateStatus('pending')}
+              disabled={isSimulating}
+              className={`p-2.5 rounded-btn text-xs font-semibold text-left border transition-all ${
+                account?.provisioningStatus === 'pending'
+                  ? 'bg-warning text-white border-warning shadow-sm'
+                  : 'bg-white hover:bg-slate-50 border-border-color text-slate-700'
+              }`}
+            >
+              🟡 Pending Setup
+              <p className="text-[10px] opacity-80 font-normal">Provider creation underway</p>
+            </button>
+
+            <button
+              onClick={() => handleSimulateStatus('conflict')}
+              disabled={isSimulating}
+              className={`p-2.5 rounded-btn text-xs font-semibold text-left border transition-all ${
+                account?.provisioningStatus === 'conflict'
+                  ? 'bg-error text-white border-error shadow-sm'
+                  : 'bg-white hover:bg-slate-50 border-border-color text-slate-700'
+              }`}
+            >
+              🔴 Mapping Conflict
+              <p className="text-[10px] opacity-80 font-normal">Assigned to another identity</p>
+            </button>
+
+            <button
+              onClick={() => handleSimulateStatus('failed')}
+              disabled={isSimulating}
+              className={`p-2.5 rounded-btn text-xs font-semibold text-left border transition-all ${
+                account?.provisioningStatus === 'failed'
+                  ? 'bg-slate-800 text-white border-slate-800 shadow-sm'
+                  : 'bg-white hover:bg-slate-50 border-border-color text-slate-700'
+              }`}
+            >
+              ⚪ Setup Failed
+              <p className="text-[10px] opacity-80 font-normal">Provider service error</p>
+            </button>
           </div>
+        </Card>
+
+        {/* Regulatory & Architecture Disclosures */}
+        <div className="p-4 bg-slate-100 rounded-card text-xs text-slate-600 space-y-1.5">
+          <h4 className="font-semibold text-midnight-navy">Architectural Safeguards (Rule 5.3):</h4>
+          <ul className="list-disc list-inside space-y-1 text-[11px] text-slate-500">
+            <li>Never creates an unverified account number by blindly truncating digits.</li>
+            <li>Authoritative mapping is verified against the licensed partner institution.</li>
+            <li>In production, funds cannot be directed until the provider emits an operational webhook confirmation.</li>
+          </ul>
         </div>
       </div>
     </div>
