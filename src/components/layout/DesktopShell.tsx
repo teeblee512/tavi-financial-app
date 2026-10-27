@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { NavLink, useLocation } from 'react-router-dom';
+import React, { useState, useRef, useEffect } from 'react';
+import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import clsx from 'clsx';
 import { TaviLogo } from '../ui/TaviLogo';
 import { useApp } from '../../app/AppContext';
@@ -92,9 +92,49 @@ function SidebarIcon({ name, active }: { name: string; active: boolean }) {
 export function DesktopShell({ children }: DesktopShellProps) {
   const [sidebarExpanded, setSidebarExpanded] = useState(true);
   const location = useLocation();
-  const { user, logout } = useApp();
+  const navigate = useNavigate();
+  const {
+    user,
+    logout,
+    notifications,
+    unreadNotificationsCount,
+    markNotificationAsRead,
+    markAllNotificationsAsRead,
+  } = useApp();
+
+  // Top Bar Dropdowns
+  const [notifDropdownOpen, setNotifDropdownOpen] = useState(false);
+  const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
+
+  const notifRef = useRef<HTMLDivElement>(null);
+  const profileRef = useRef<HTMLDivElement>(null);
+
+  // Close dropdowns on click outside or Escape
+  useEffect(() => {
+    const handleOutsideClick = (e: MouseEvent) => {
+      if (notifRef.current && !notifRef.current.contains(e.target as Node)) {
+        setNotifDropdownOpen(false);
+      }
+      if (profileRef.current && !profileRef.current.contains(e.target as Node)) {
+        setProfileDropdownOpen(false);
+      }
+    };
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setNotifDropdownOpen(false);
+        setProfileDropdownOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleOutsideClick);
+    document.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.removeEventListener('mousedown', handleOutsideClick);
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, []);
 
   const sidebarWidth = sidebarExpanded ? 248 : 76;
+  const recentNotifs = notifications.slice(0, 4);
 
   return (
     <div className="flex min-h-screen bg-app-bg" style={{ paddingTop: '24px' }}>
@@ -170,7 +210,10 @@ export function DesktopShell({ children }: DesktopShellProps) {
           </div>
           {sidebarExpanded && (
             <button
-              onClick={logout}
+              onClick={() => {
+                logout();
+                navigate('/login');
+              }}
               className="mt-3 w-full text-white/60 hover:text-white text-xs py-1.5 rounded-card hover:bg-white/10 transition-colors"
             >
               Sign out
@@ -181,26 +224,172 @@ export function DesktopShell({ children }: DesktopShellProps) {
 
       {/* Main area */}
       <div className="flex-1 flex flex-col" style={{ marginLeft: sidebarWidth }}>
-        {/* Top bar */}
-        <header className="sticky top-6 z-30 bg-white border-b border-border-color h-[72px] flex items-center px-8 gap-4">
+        {/* Top bar with Dropdowns */}
+        <header className="sticky top-6 z-30 bg-white border-b border-border-color h-[72px] flex items-center px-8 gap-4 shadow-2xs">
           <div className="flex-1" />
-          <NavLink to="/landing" className="text-xs font-semibold text-action-green bg-pale-mint px-3 py-1.5 rounded-full hover:bg-mint transition-colors">
+
+          <NavLink to="/landing" className="text-xs font-semibold text-action-green bg-pale-mint px-3.5 py-1.5 rounded-full hover:bg-mint transition-colors">
             Public Website ↗
           </NavLink>
-          <NavLink to="/notifications" className="relative p-2 hover:bg-slate-100 rounded-icon transition-colors">
-            <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="#475569" strokeWidth={2}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
-            </svg>
-            <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-action-green rounded-full" aria-label="New notifications" />
-          </NavLink>
-          <NavLink to="/profile" className="flex items-center gap-2 hover:bg-slate-50 rounded-card px-3 py-1.5 transition-colors">
-            <div className="w-8 h-8 rounded-full bg-action-green flex items-center justify-center text-white text-sm font-bold">
-              {user?.avatarInitials || 'AO'}
-            </div>
-            <span className="text-sm font-medium text-slate-700">
-              {user?.firstName}
-            </span>
-          </NavLink>
+
+          {/* Notification Bell Dropdown (Phase 11 Requirement 2) */}
+          <div className="relative" ref={notifRef}>
+            <button
+              onClick={() => {
+                setNotifDropdownOpen(!notifDropdownOpen);
+                setProfileDropdownOpen(false);
+              }}
+              className="relative p-2 hover:bg-slate-100 rounded-full transition-colors flex items-center justify-center text-slate-600"
+              aria-label="Open notifications dropdown"
+            >
+              <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+              </svg>
+              {unreadNotificationsCount > 0 && (
+                <span className="absolute -top-1 -right-1 min-w-[18px] h-[18px] bg-red-500 text-white rounded-full text-[10px] font-bold flex items-center justify-center px-1">
+                  {unreadNotificationsCount > 9 ? '9+' : unreadNotificationsCount}
+                </span>
+              )}
+            </button>
+
+            {notifDropdownOpen && (
+              <div className="absolute right-0 mt-2 w-80 bg-white border border-border-color rounded-2xl shadow-xl z-50 overflow-hidden animate-slide-up">
+                <div className="p-3.5 border-b border-border-color flex justify-between items-center bg-slate-50">
+                  <div className="flex items-center gap-1.5">
+                    <span className="font-bold text-midnight-navy text-xs">Notifications</span>
+                    {unreadNotificationsCount > 0 && (
+                      <span className="text-[10px] bg-pale-mint text-primary-green px-1.5 py-0.2 rounded font-bold">
+                        {unreadNotificationsCount} new
+                      </span>
+                    )}
+                  </div>
+                  {unreadNotificationsCount > 0 && (
+                    <button
+                      onClick={markAllNotificationsAsRead}
+                      className="text-[11px] text-action-green font-semibold hover:underline"
+                    >
+                      Mark all read
+                    </button>
+                  )}
+                </div>
+
+                <div className="divide-y divide-border-color max-h-[300px] overflow-y-auto">
+                  {recentNotifs.length === 0 ? (
+                    <div className="p-4 text-center text-xs text-slate-400">No new notifications</div>
+                  ) : (
+                    recentNotifs.map((n) => (
+                      <div
+                        key={n.id}
+                        onClick={() => {
+                          markNotificationAsRead(n.id);
+                          if (n.actionUrl) {
+                            navigate(n.actionUrl);
+                            setNotifDropdownOpen(false);
+                          }
+                        }}
+                        className={`p-3 hover:bg-slate-50 transition-colors cursor-pointer text-xs ${
+                          !n.read ? 'bg-pale-mint/15' : ''
+                        }`}
+                      >
+                        <div className="flex justify-between items-start">
+                          <p className="font-bold text-midnight-navy truncate">{n.title}</p>
+                          {!n.read && <span className="w-2 h-2 rounded-full bg-action-green ml-1 flex-shrink-0" />}
+                        </div>
+                        <p className="text-[11px] text-slate-500 line-clamp-2 mt-0.5">{n.message}</p>
+                        <span className="text-[10px] text-slate-400 mt-1 block">
+                          {new Date(n.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                        </span>
+                      </div>
+                    ))
+                  )}
+                </div>
+
+                <div className="p-2.5 border-t border-border-color bg-slate-50 text-center">
+                  <button
+                    onClick={() => {
+                      setNotifDropdownOpen(false);
+                      navigate('/notifications');
+                    }}
+                    className="text-xs font-bold text-action-green hover:underline"
+                  >
+                    View All Notifications →
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Profile Menu Dropdown (Phase 10 Section 9) */}
+          <div className="relative" ref={profileRef}>
+            <button
+              onClick={() => {
+                setProfileDropdownOpen(!profileDropdownOpen);
+                setNotifDropdownOpen(false);
+              }}
+              className="flex items-center gap-2 hover:bg-slate-50 rounded-card px-2.5 py-1.5 transition-colors"
+              aria-label="User profile menu"
+            >
+              <div className="w-8 h-8 rounded-full bg-action-green flex items-center justify-center text-white text-xs font-bold shadow-2xs">
+                {user?.avatarInitials || 'AO'}
+              </div>
+              <span className="text-sm font-semibold text-slate-700">
+                {user?.firstName}
+              </span>
+              <span className="text-slate-400 text-xs">▼</span>
+            </button>
+
+            {profileDropdownOpen && (
+              <div className="absolute right-0 mt-2 w-64 bg-white border border-border-color rounded-2xl shadow-xl z-50 overflow-hidden animate-slide-up">
+                {/* User Card */}
+                <div className="p-4 border-b border-border-color bg-slate-50">
+                  <p className="font-extrabold text-sm text-midnight-navy">{user?.firstName} {user?.lastName}</p>
+                  <p className="text-xs text-slate-500 truncate">{user?.email}</p>
+                  <div className="flex items-center gap-1.5 mt-2">
+                    <span className="text-[10px] bg-green-100 text-action-green font-bold px-2 py-0.5 rounded-full uppercase">
+                      Tier 3 Verified
+                    </span>
+                    <DemoChip />
+                  </div>
+                </div>
+
+                {/* Dropdown Items */}
+                <div className="p-2 space-y-0.5 text-xs text-slate-700">
+                  {[
+                    { label: 'View Profile', path: '/profile' },
+                    { label: 'Account Details', path: '/account-details' },
+                    { label: 'Security & Settings', path: '/settings' },
+                    { label: 'Notifications Center', path: '/notifications' },
+                    { label: 'Support & Help Hub', path: '/support' },
+                  ].map((item) => (
+                    <button
+                      key={item.label}
+                      onClick={() => {
+                        setProfileDropdownOpen(false);
+                        navigate(item.path);
+                      }}
+                      className="w-full text-left px-3 py-2 rounded-xl hover:bg-slate-100 transition-colors font-medium flex items-center justify-between"
+                    >
+                      <span>{item.label}</span>
+                      <span className="text-slate-400">→</span>
+                    </button>
+                  ))}
+                </div>
+
+                <div className="p-2 border-t border-border-color">
+                  <button
+                    onClick={() => {
+                      setProfileDropdownOpen(false);
+                      logout();
+                      navigate('/login');
+                    }}
+                    className="w-full text-left px-3 py-2 rounded-xl text-red-600 hover:bg-red-50 transition-colors font-bold text-xs"
+                  >
+                    Sign Out
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
         </header>
 
         {/* Content */}
