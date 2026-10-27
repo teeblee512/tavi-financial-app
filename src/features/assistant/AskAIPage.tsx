@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useApp } from '../../app/AppContext';
 import { PageHeader, Card, Button } from '../../components/ui';
@@ -26,11 +26,6 @@ export function AskAIPage() {
 
   const [input, setInput] = useState('');
   const [isTyping, setIsTyping] = useState(false);
-  const [conversationHistory, setConversationHistory] = useState<string[]>([
-    'Transactions with Ada Chukwu',
-    'Monthly spending breakdown',
-    'How to sell a gift card',
-  ]);
 
   const [messages, setMessages] = useState<Message[]>([
     {
@@ -41,19 +36,7 @@ export function AskAIPage() {
     },
   ]);
 
-  // Handle incoming prompt passed from HomePage
-  useEffect(() => {
-    const state = location.state as { initialPrompt?: string } | null;
-    if (state?.initialPrompt) {
-      handleUserSubmit(state.initialPrompt);
-    }
-  }, [location.state]);
-
-  useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages, isTyping]);
-
-  const handleUserSubmit = (queryText: string) => {
+  const handleUserSubmit = useCallback((queryText: string) => {
     const trimmed = queryText.trim();
     if (!trimmed) return;
 
@@ -189,7 +172,19 @@ export function AskAIPage() {
         },
       ]);
     }, 500);
-  };
+  }, [transactions, balance, account]);
+
+  // Handle incoming prompt passed from HomePage
+  useEffect(() => {
+    const state = location.state as { initialPrompt?: string } | null;
+    if (state?.initialPrompt) {
+      handleUserSubmit(state.initialPrompt);
+    }
+  }, [location.state, handleUserSubmit]);
+
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [messages, isTyping]);
 
   return (
     <div className="flex flex-col bg-app-bg min-h-full pb-6">

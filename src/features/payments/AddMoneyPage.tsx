@@ -13,7 +13,7 @@ export function AddMoneyPage() {
 
   const [showCardModal, setShowCardModal] = useState(false);
   const [topUpAmount, setTopUpAmount] = useState('10000');
-  const [cardNumber, setCardNumber] = useState('5399 •••• •••• 4021');
+  const [cardNumber] = useState('5399 •••• •••• 4021');
   const [isProcessing, setIsProcessing] = useState(false);
 
   const handleCopyAccount = () => {

@@ -235,7 +235,7 @@ export function GiftCardsPage() {
                   </div>
                   <div className="flex justify-between">
                     <span className="text-slate-500">Processing Fee:</span>
-                    <span className="font-semibold text-action-green">₦0.00 (Zero Fee)</span>
+                    <span className="font-semibold text-action-green">{formatNaira(processingFeeKobo)} (Zero Fee)</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-slate-500">Rate Timestamp:</span>

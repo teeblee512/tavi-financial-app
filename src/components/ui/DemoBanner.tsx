@@ -1,4 +1,3 @@
-import { useApp } from '../../app/AppContext';
 import clsx from 'clsx';
 
 export function DemoBanner() {

@@ -1,7 +1,7 @@
 import { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useApp } from '../../app/AppContext';
-import { PageHeader, Card, Input, Button, SectionHeader } from '../../components/ui';
+import { PageHeader, Card, Input } from '../../components/ui';
 import type { NotificationCategory } from '../../types';
 
 export function NotificationsPage() {

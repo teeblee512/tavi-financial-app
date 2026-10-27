@@ -4,7 +4,7 @@ import { useApp } from '../../app/AppContext';
 import { formatNaira, formatTransactionDate, getGreeting, CATEGORY_LABELS } from '../../services/formatters';
 import { formatAccountNumber } from '../../services/phoneUtils';
 import { useClipboard } from '../../hooks/useClipboard';
-import { Card, SectionHeader, StatusBadge, EmptyState } from '../../components/ui';
+import { SectionHeader, StatusBadge, EmptyState } from '../../components/ui';
 import { DemoChip } from '../../components/ui/DemoBanner';
 import { TaviLogo } from '../../components/ui/TaviLogo';
 import { DashboardCarousel } from './DashboardCarousel';
@@ -361,7 +361,7 @@ function ActionIcon({ name }: { name: string }) {
   return icons[name] || <span />;
 }
 
-function TxIcon({ category, direction }: { category: string; direction: string }) {
+function TxIcon({ category: _category, direction }: { category: string; direction: string }) {
   if (direction === 'credit') {
     return (
       <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>

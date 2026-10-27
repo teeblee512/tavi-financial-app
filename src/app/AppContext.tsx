@@ -110,7 +110,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   const [transactions, setTransactions] = useState<Transaction[]>(DEMO_TRANSACTIONS);
   const [beneficiaries, setBeneficiaries] = useState<Beneficiary[]>(DEMO_BENEFICIARIES);
   const [reminders, setReminders] = useState<Reminder[]>(DEMO_REMINDERS);
-  const [budgets, setBudgets] = useState<Budget[]>(DEMO_BUDGETS);
+  const [budgets] = useState<Budget[]>(DEMO_BUDGETS);
   const [investmentAccount, setInvestmentAccount] = useState<InvestmentAccount | null>(DEMO_INVESTMENT_ACCOUNT);
   const [holdings, setHoldings] = useState<Holding[]>(DEMO_HOLDINGS);
   const [giftCards, setGiftCards] = useState<GiftCardRedemption[]>(DEMO_GIFT_CARDS);
@@ -293,7 +293,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   // Safe Multi-stage Gift Card Offer Submission (Phase 6)
-  const submitGiftCardOffer = useCallback((brand: string, region: string, denomination: number, payoutKobo: number, cardCode: string): GiftCardRedemption => {
+  const submitGiftCardOffer = useCallback((brand: string, region: string, denomination: number, payoutKobo: number, _cardCode: string): GiftCardRedemption => {
     const newRedemption: GiftCardRedemption = {
       id: `gc-demo-${Date.now()}`,
       userId: 'demo-user-001',

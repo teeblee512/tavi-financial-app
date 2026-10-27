@@ -5,7 +5,6 @@ import { PageHeader, Card, Input, Button, SectionHeader } from '../../components
 import { useClipboard } from '../../hooks/useClipboard';
 import {
   DEMO_CRYPTO_ASSETS,
-  type MultiCurrencyAccount,
   type CryptoAssetItem,
 } from '../../data/demoData';
 
@@ -374,6 +373,28 @@ export function FXPage() {
         {/* ─── TAB 3: TAVI GLOBAL CARD CONCEPT (Phase 5 Part D) ─── */}
         {activeTab === 'card' && (
           <div className="max-w-lg mx-auto w-full space-y-4">
+            {/* Card Format Selector */}
+            <div className="flex gap-2">
+              <button
+                type="button"
+                onClick={() => setCardType('virtual')}
+                className={`flex-1 py-1.5 text-xs font-bold rounded-lg border transition-all ${
+                  cardType === 'virtual' ? 'bg-deep-emerald text-white border-deep-emerald' : 'bg-white text-slate-600 border-border-color'
+                }`}
+              >
+                Virtual Card
+              </button>
+              <button
+                type="button"
+                onClick={() => setCardType('physical')}
+                className={`flex-1 py-1.5 text-xs font-bold rounded-lg border transition-all ${
+                  cardType === 'physical' ? 'bg-deep-emerald text-white border-deep-emerald' : 'bg-white text-slate-600 border-border-color'
+                }`}
+              >
+                Physical Card (Concept)
+              </button>
+            </div>
+
             {/* Card Mockup */}
             <div
               className={`p-6 rounded-hero text-white space-y-6 shadow-xl transition-all duration-300 ${

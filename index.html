@@ -9,6 +9,18 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <script>
+      (function() {
+        var pathname = window.location.pathname;
+        var repoName = '/tavi-financial-app';
+        var isGhPages = pathname.indexOf(repoName) === 0;
+        var subpath = isGhPages ? pathname.slice(repoName.length) : pathname;
+        if (subpath && subpath !== '/' && subpath !== '/index.html' && subpath !== '/404.html') {
+          var base = isGhPages ? repoName : '';
+          window.location.replace(base + '/#' + subpath + window.location.search + window.location.hash);
+        }
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>

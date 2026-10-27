@@ -6,14 +6,13 @@ import { DEMO_FAQS } from '../../data/demoData';
 
 export function SettingsPage() {
   const navigate = useNavigate();
-  const { user, showToast } = useApp();
+  const { showToast } = useApp();
 
   const [activeTab, setActiveTab] = useState<'security' | 'faq' | 'sessions' | 'privacy'>('security');
 
   // Security Toggles
   const [biometricEnabled, setBiometricEnabled] = useState(true);
   const [twoFactorEnabled, setTwoFactorEnabled] = useState(true);
-  const [notifyTransactions, setNotifyTransactions] = useState(true);
   const [notifyMarketing, setNotifyMarketing] = useState(false);
 
   // Active Sessions
