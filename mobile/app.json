@@ -1,0 +1,44 @@
+{
+  "expo": {
+    "name": "TAVI",
+    "slug": "tavi-financial-app",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "newArchEnabled": true,
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#064E3B"
+    },
+    "ios": {
+      "supportsTablet": false,
+      "bundleIdentifier": "com.tavi.app",
+      "infoPlist": {
+        "NSCameraUsageDescription": "TAVI requires camera access for identity verification and document capture.",
+        "NSFaceIDUsageDescription": "TAVI uses Face ID to securely authenticate your financial sessions."
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#064E3B"
+      },
+      "package": "com.tavi.app",
+      "permissions": [
+        "CAMERA",
+        "USE_BIOMETRIC",
+        "USE_FINGERPRINT"
+      ]
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "tavi-financial-app-project-id"
+      }
+    }
+  }
+}

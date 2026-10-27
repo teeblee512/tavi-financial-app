@@ -1,0 +1,392 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  USER
+  SUPPORT_AGENT
+  ADMIN
+}
+
+enum KycTier {
+  TIER_0_UNVERIFIED
+  TIER_1_BASIC
+  TIER_2_VERIFIED
+  TIER_3_PRO
+}
+
+enum AccountType {
+  ASSET
+  LIABILITY
+  EQUITY
+  REVENUE
+  EXPENSE
+}
+
+enum PostingDirection {
+  DEBIT
+  CREDIT
+}
+
+enum TransactionStatus {
+  PENDING
+  SUCCESSFUL
+  FAILED
+  REVERSED
+  CANCELLED
+}
+
+enum TransactionType {
+  TRANSFER
+  DEPOSIT
+  BILL_PAYMENT
+  CARD_FUNDING
+  GIFT_CARD_PAYOUT
+  FX_CONVERSION
+}
+
+enum OrderType {
+  MARKET
+  LIMIT
+}
+
+enum OrderSide {
+  BUY
+  SELL
+}
+
+enum OrderStatus {
+  PENDING
+  FILLED
+  PARTIALLY_FILLED
+  CANCELLED
+  REJECTED
+}
+
+enum GiftCardStatus {
+  SUBMITTED
+  UNDER_REVIEW
+  APPROVED
+  PAID
+  REJECTED
+}
+
+enum SupportStatus {
+  SUBMITTED
+  UNDER_REVIEW
+  IN_PROGRESS
+  RESOLVED
+  CLOSED
+}
+
+enum NotificationCategory {
+  TRANSACTIONS
+  SECURITY
+  BILLS
+  INVESTMENTS
+  ACCOUNT
+  REMINDERS
+}
+
+model User {
+  id               String       @id @default(uuid())
+  phone            String       @unique
+  email            String?      @unique
+  passwordHash     String
+  pinHash          String?
+  investPinHash    String?
+  role             Role         @default(USER)
+  isPhoneVerified  Boolean      @default(false)
+  isEmailVerified  Boolean      @default(false)
+  kycTier          KycTier      @default(TIER_1_BASIC)
+  createdAt        DateTime     @default(now())
+  updatedAt        DateTime     @updatedAt
+
+  profile          Profile?
+  wallets          Wallet[]
+  transactions     Transaction[]
+  beneficiaries    Beneficiary[]
+  paymentRequests  PaymentRequest[]
+  orders           Order[]
+  giftCards        GiftCardSubmission[]
+  supportCases     SupportCase[]
+  notifications    Notification[]
+  auditLogs        AuditLog[]
+  sessions         Session[]
+
+  @@map("users")
+}
+
+model Profile {
+  id                  String   @id @default(uuid())
+  userId              String   @unique
+  firstName           String
+  lastName            String
+  displayName         String?
+  avatarUrl           String?
+  address             String?
+  countryCode         String   @default("NG")
+  currencyPreference  String   @default("NGN")
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+
+  user                User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("profiles")
+}
+
+model Session {
+  id           String   @id @default(uuid())
+  userId       String
+  token        String   @unique
+  device       String
+  ipAddress    String?
+  userAgent    String?
+  isActive     Boolean  @default(true)
+  expiresAt    DateTime
+  createdAt    DateTime @default(now())
+
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("sessions")
+}
+
+model LedgerAccount {
+  id           String           @id @default(uuid())
+  accountType  AccountType
+  name         String
+  code         String           @unique
+  currency     String           @default("NGN")
+  description  String?
+  createdAt    DateTime         @default(now())
+
+  postings     Posting[]
+  wallets      Wallet[]
+
+  @@map("ledger_accounts")
+}
+
+model Wallet {
+  id                    String        @id @default(uuid())
+  userId                String
+  currency              String        @default("NGN")
+  isDefault             Boolean       @default(false)
+  providerName          String        @default("Providus Bank")
+  providerAccountNumber String?
+  provisioningStatus    String        @default("active")
+  ledgerAccountId       String
+  createdAt             DateTime      @default(now())
+  updatedAt             DateTime      @updatedAt
+
+  user                  User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  ledgerAccount         LedgerAccount @relation(fields: [ledgerAccountId], references: [id])
+  transactions          Transaction[]
+
+  @@unique([userId, currency])
+  @@map("wallets")
+}
+
+model JournalEntry {
+  id             String        @id @default(uuid())
+  entryNumber    String        @unique
+  reference      String        @unique
+  narration      String
+  idempotencyKey String?       @unique
+  createdAt      DateTime      @default(now())
+
+  postings       Posting[]
+
+  @@map("journal_entries")
+}
+
+model Posting {
+  id              String           @id @default(uuid())
+  journalEntryId  String
+  ledgerAccountId String
+  direction       PostingDirection
+  amountMinor     BigInt
+  currency        String           @default("NGN")
+  createdAt       DateTime         @default(now())
+
+  journalEntry    JournalEntry     @relation(fields: [journalEntryId], references: [id], onDelete: Cascade)
+  ledgerAccount   LedgerAccount    @relation(fields: [ledgerAccountId], references: [id])
+
+  @@map("postings")
+}
+
+model Transaction {
+  id                   String            @id @default(uuid())
+  reference            String            @unique
+  userId               String
+  walletId             String
+  type                 TransactionType
+  direction            PostingDirection
+  amountMinor          Int               // Integer kobo or cents
+  feeMinor             Int               @default(0)
+  currency             String            @default("NGN")
+  status               TransactionStatus @default(PENDING)
+  counterpartyName     String
+  counterpartyAccount  String?
+  counterpartyBank     String?
+  narration            String
+  createdAt            DateTime          @default(now())
+  updatedAt            DateTime          @updatedAt
+
+  user                 User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  wallet               Wallet            @relation(fields: [walletId], references: [id])
+
+  @@index([userId, createdAt])
+  @@index([reference])
+  @@map("transactions")
+}
+
+model Beneficiary {
+  id            String   @id @default(uuid())
+  userId        String
+  name          String
+  accountNumber String
+  bankCode      String
+  bankName      String
+  createdAt     DateTime @default(now())
+
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, accountNumber, bankCode])
+  @@map("beneficiaries")
+}
+
+model PaymentRequest {
+  id                   String   @id @default(uuid())
+  reference            String   @unique
+  userId               String
+  type                 String   @default("money") // money, airtime, data
+  recipientIdentifier  String
+  recipientName        String?
+  amountMinor          Int
+  currency             String   @default("NGN")
+  note                 String?
+  status               String   @default("pending") // pending, paid, declined, expired
+  createdAt            DateTime @default(now())
+
+  user                 User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("payment_requests")
+}
+
+model Stock {
+  id               String   @id @default(uuid())
+  symbol           String   @unique
+  name             String
+  sector           String
+  priceMinor       Int      // Price in kobo
+  currency         String   @default("NGN")
+  dayChangePercent Float
+  volume           BigInt
+  marketCapMinor   BigInt
+  logoUrl          String?
+  updatedAt        DateTime @updatedAt
+
+  @@map("stocks")
+}
+
+model TaviIndex {
+  id                String   @id @default(uuid())
+  symbol            String   @unique
+  name              String
+  level             Float
+  dayChangePercent  Float
+  constituentsCount Int
+  methodology       String
+  updatedAt         DateTime @updatedAt
+
+  @@map("tavi_indices")
+}
+
+model Order {
+  id          String      @id @default(uuid())
+  reference   String      @unique
+  userId      String
+  stockSymbol String
+  side        OrderSide
+  orderType   OrderType
+  quantity    Int
+  priceMinor  Int
+  status      OrderStatus @default(PENDING)
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  user        User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("orders")
+}
+
+model GiftCardSubmission {
+  id                   String         @id @default(uuid())
+  reference            String         @unique
+  userId               String
+  brand                String
+  region               String
+  denominationMinor    Int
+  denominationCurrency String         @default("USD")
+  payoutMinor          Int
+  payoutCurrency       String         @default("NGN")
+  status               GiftCardStatus @default(SUBMITTED)
+  createdAt            DateTime       @default(now())
+  updatedAt            DateTime       @updatedAt
+
+  user                 User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("gift_card_submissions")
+}
+
+model SupportCase {
+  id          String        @id @default(uuid())
+  reference   String        @unique
+  userId      String
+  category    String
+  subject     String
+  description String
+  relatedTxId String?
+  status      SupportStatus @default(SUBMITTED)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  user        User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("support_cases")
+}
+
+model Notification {
+  id        String               @id @default(uuid())
+  userId    String
+  category  NotificationCategory
+  title     String
+  message   String
+  isRead    Boolean              @default(false)
+  linkUrl   String?
+  createdAt DateTime             @default(now())
+
+  user      User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, isRead])
+  @@map("notifications")
+}
+
+model AuditLog {
+  id        String   @id @default(uuid())
+  userId    String?
+  action    String
+  ipAddress String?
+  userAgent String?
+  details   String?
+  createdAt DateTime @default(now())
+
+  user      User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@map("audit_logs")
+}
