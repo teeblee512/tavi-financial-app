@@ -485,6 +485,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     return true;
   }, [investmentAccount, holdings]);
 
+  // Gift Card redemption (Legacy direct helper)
   const redeemGiftCard = useCallback((brand: string, region: string, denomination: number, payoutKobo: number) => {
     const newRedemption: GiftCardRedemption = {
       id: `gc-${Date.now()}`,
@@ -630,3 +631,4 @@ export function useApp(): AppContextType {
   if (!ctx) throw new Error('useApp must be used within AppProvider');
   return ctx;
 }
+
