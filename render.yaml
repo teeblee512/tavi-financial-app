@@ -8,3 +8,22 @@ services:
       - type: rewrite
         source: /*
         destination: /index.html
+
+  - type: web
+    name: tavi-backend-api
+    env: node
+    plan: free
+    rootDir: backend
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: CORS_ORIGIN
+        value: https://tavi-financial-app.onrender.com,https://teeblee512.github.io,http://localhost:5173,http://localhost:3000
+      - key: DEMO_STARTING_BALANCE_MINOR
+        value: "25000000"
+      - key: SANDBOX_STORAGE_FILE
+        value: ./data/sandbox_store.json

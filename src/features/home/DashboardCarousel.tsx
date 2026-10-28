@@ -1,125 +1,99 @@
 import { useNavigate } from 'react-router-dom';
 import { useApp } from '../../app/AppContext';
-import { formatNaira, formatDate } from '../../services/formatters';
+import { formatNaira } from '../../services/formatters';
 
 export function DashboardCarousel() {
-  const { balance, investmentAccount, reminders } = useApp();
+  const { investmentAccount, reminders } = useApp();
   const navigate = useNavigate();
 
   const upcomingReminder = reminders.find((r) => !r.completed);
 
   return (
     <div className="px-5">
-      <div className="carousel-scroll" role="list" aria-label="Dashboard highlights">
-        {/* Card B: Spending Insights */}
-        <div className="carousel-card" style={{ width: 300 }} role="listitem">
-          <div className="card p-4 h-[140px] flex flex-col justify-between bg-gradient-to-br from-pale-mint to-white border-green-100">
-            <div>
-              <p className="text-xs text-slate-500 font-medium uppercase tracking-wide mb-1">This month</p>
-              <p className="text-lg font-bold text-midnight-navy">₦251,100</p>
-              <p className="text-xs text-slate-500">↓ 21% less than September</p>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5" role="list" aria-label="Dashboard highlights">
+        {/* Card 1: Monthly Spending Insights */}
+        <div className="card p-4 min-h-[145px] flex flex-col justify-between bg-gradient-to-br from-pale-mint/60 to-white border-green-100 hover:shadow-sm transition-shadow" role="listitem">
+          <div>
+            <div className="flex items-center justify-between mb-1.5">
+              <span className="text-[11px] text-slate-500 font-semibold uppercase tracking-wider">This Month</span>
+              <span className="text-[10px] bg-green-100 text-primary-green px-2 py-0.5 rounded-full font-medium">↓ 21%</span>
             </div>
-            <button
-              onClick={() => navigate('/budget')}
-              className="text-xs font-semibold text-action-green hover:underline text-left"
-            >
-              View spending insights →
-            </button>
+            <p className="text-xl font-extrabold text-midnight-navy">₦251,100.00</p>
+            <p className="text-xs text-slate-500 mt-0.5">Budget on track (76% used)</p>
           </div>
+          <button
+            onClick={() => navigate('/budget')}
+            className="text-xs font-semibold text-action-green hover:underline text-left mt-2 flex items-center gap-1"
+          >
+            Spending Insights <span>→</span>
+          </button>
         </div>
 
-        {/* Card C: Upcoming payment */}
+        {/* Card 2: Upcoming Payment Reminder */}
         {upcomingReminder && (
-          <div className="carousel-card" style={{ width: 300 }} role="listitem">
-            <div className="card p-4 h-[140px] flex flex-col justify-between border-amber-100">
-              <div>
-                <div className="flex items-center gap-2 mb-2">
-                  <span className="w-6 h-6 bg-amber-100 rounded-icon flex items-center justify-center">
-                    <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="#B45309" strokeWidth={2}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                  </span>
-                  <p className="text-xs text-warning font-medium">Upcoming</p>
-                </div>
-                <p className="text-sm font-bold text-midnight-navy">{upcomingReminder.title}</p>
-                {upcomingReminder.amountKobo && (
-                  <p className="text-base font-semibold text-midnight-navy">{formatNaira(upcomingReminder.amountKobo)}</p>
-                )}
-                <p className="text-xs text-slate-400">
-                  Due {new Date(upcomingReminder.dueDate).toLocaleDateString('en-NG', { day: 'numeric', month: 'short' })}
-                </p>
-              </div>
-              <button
-                onClick={() => navigate('/reminders')}
-                className="text-xs font-semibold text-action-green hover:underline text-left"
-              >
-                View reminder →
-              </button>
-            </div>
-          </div>
-        )}
-
-        {/* Card D: Investment overview */}
-        {investmentAccount && (
-          <div className="carousel-card" style={{ width: 300 }} role="listitem">
-            <div className="card p-4 h-[140px] flex flex-col justify-between bg-gradient-to-br from-midnight-navy to-slate-800 border-0">
-              <div>
-                <p className="text-xs text-white/60 font-medium uppercase tracking-wide mb-1">Portfolio value</p>
-                <p className="text-lg font-bold text-white">{formatNaira(investmentAccount.portfolioValueKobo)}</p>
-                <p className="text-xs text-green-400">
-                  +{formatNaira(investmentAccount.unrealisedGainKobo)} unrealised
-                </p>
-              </div>
-              <button
-                onClick={() => navigate('/invest')}
-                className="text-xs font-semibold text-mint hover:text-white text-left"
-              >
-                Open Invest →
-              </button>
-            </div>
-          </div>
-        )}
-
-        {/* Card E: FX Calculator */}
-        <div className="carousel-card" style={{ width: 280 }} role="listitem">
-          <div className="card p-4 h-[140px] flex flex-col justify-between border-blue-100">
+          <div className="card p-4 min-h-[145px] flex flex-col justify-between border-amber-100/80 bg-amber-50/20 hover:shadow-sm transition-shadow" role="listitem">
             <div>
-              <p className="text-xs text-slate-500 font-medium uppercase tracking-wide mb-1">FX Rate</p>
-              <p className="text-lg font-bold text-midnight-navy">$1 = ₦1,600</p>
-              <p className="text-xs text-slate-400">NGN / USD · indicative rate</p>
-              <p className="text-[10px] text-slate-400 mt-0.5">This rate is indicative and may change.</p>
-            </div>
-            <button
-              onClick={() => navigate('/fx')}
-              className="text-xs font-semibold text-action-green hover:underline text-left"
-            >
-              Convert currency →
-            </button>
-          </div>
-        </div>
-
-        {/* Card F: Gift Cards */}
-        <div className="carousel-card" style={{ width: 280 }} role="listitem">
-          <div className="card p-4 h-[140px] flex flex-col justify-between border-purple-100">
-            <div>
-              <div className="flex items-center gap-2 mb-2">
-                <span className="w-6 h-6 bg-purple-100 rounded-icon flex items-center justify-center">
-                  <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="#7C3AED" strokeWidth={2}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M20 12v10H4V12M22 7H2v5h20V7zM12 22V7" />
-                  </svg>
+              <div className="flex items-center justify-between mb-1.5">
+                <span className="text-[11px] text-amber-700 font-semibold uppercase tracking-wider flex items-center gap-1">
+                  <span className="w-2 h-2 rounded-full bg-amber-500 inline-block animate-pulse" />
+                  Upcoming
                 </span>
-                <p className="text-xs text-purple-700 font-medium">Gift Cards</p>
+                <span className="text-[10px] text-slate-400">
+                  {new Date(upcomingReminder.dueDate).toLocaleDateString('en-NG', { day: 'numeric', month: 'short' })}
+                </span>
               </div>
-              <p className="text-sm font-semibold text-midnight-navy">Redeem gift cards for cash</p>
-              <p className="text-xs text-slate-400">Amazon, iTunes, Google Play &amp; more</p>
+              <p className="text-sm font-bold text-midnight-navy truncate">{upcomingReminder.title}</p>
+              {upcomingReminder.amountKobo && (
+                <p className="text-lg font-extrabold text-midnight-navy mt-0.5">{formatNaira(upcomingReminder.amountKobo)}</p>
+              )}
             </div>
             <button
-              onClick={() => navigate('/gift-cards')}
-              className="text-xs font-semibold text-action-green hover:underline text-left"
+              onClick={() => navigate('/reminders')}
+              className="text-xs font-semibold text-action-green hover:underline text-left mt-2 flex items-center gap-1"
             >
-              Explore gift cards →
+              View Reminders <span>→</span>
             </button>
           </div>
+        )}
+
+        {/* Card 3: Investment Portfolio */}
+        {investmentAccount && (
+          <div className="card p-4 min-h-[145px] flex flex-col justify-between bg-gradient-to-br from-midnight-navy to-slate-900 text-white border-0 hover:shadow-sm transition-shadow" role="listitem">
+            <div>
+              <div className="flex items-center justify-between mb-1.5">
+                <span className="text-[11px] text-white/60 font-semibold uppercase tracking-wider">NGX Portfolio</span>
+                <span className="text-[10px] bg-white/10 text-mint px-2 py-0.5 rounded-full font-medium">+12.4%</span>
+              </div>
+              <p className="text-xl font-extrabold text-mint">{formatNaira(investmentAccount.portfolioValueKobo)}</p>
+              <p className="text-xs text-green-300/80 mt-0.5">
+                +{formatNaira(investmentAccount.unrealisedGainKobo)} unrealised gain
+              </p>
+            </div>
+            <button
+              onClick={() => navigate('/invest')}
+              className="text-xs font-semibold text-mint hover:text-white text-left mt-2 flex items-center gap-1"
+            >
+              Open Brokerage <span>→</span>
+            </button>
+          </div>
+        )}
+
+        {/* Card 4: Indicative FX Rate */}
+        <div className="card p-4 min-h-[145px] flex flex-col justify-between border-blue-100 hover:shadow-sm transition-shadow" role="listitem">
+          <div>
+            <div className="flex items-center justify-between mb-1.5">
+              <span className="text-[11px] text-slate-500 font-semibold uppercase tracking-wider">Mid-Market FX</span>
+              <span className="text-[10px] bg-blue-50 text-blue-700 px-2 py-0.5 rounded-full font-medium">Indicative</span>
+            </div>
+            <p className="text-xl font-extrabold text-midnight-navy">$1 = ₦1,600.00</p>
+            <p className="text-[11px] text-slate-400 mt-0.5">USD / NGN · Zero hidden fees</p>
+          </div>
+          <button
+            onClick={() => navigate('/fx')}
+            className="text-xs font-semibold text-action-green hover:underline text-left mt-2 flex items-center gap-1"
+          >
+            Convert Currencies <span>→</span>
+          </button>
         </div>
       </div>
     </div>

@@ -1,0 +1,647 @@
+{
+  "users": [
+    [
+      "demo-user-001",
+      {
+        "id": "demo-user-001",
+        "phone": "07030000000",
+        "email": "amara.okonkwo@taviapp.ng",
+        "demoTag": "@amara",
+        "passwordHash": "$2a$10$wTqI3rC2tD5H2vYFv8k5nOUY8zY4W4m8m8m8m8m8m8m8m8m8m8m8m",
+        "pinHash": "$2a$10$wTqI3rC2tD5H2vYFv8k5nOUY8zY4W4m8m8m8m8m8m8m8m8m8m8m8m",
+        "investPinHash": "$2a$10$wTqI3rC2tD5H2vYFv8k5nOUY8zY4W4m8m8m8m8m8m8m8m8m8m8m8m",
+        "role": "USER",
+        "isPhoneVerified": true,
+        "isEmailVerified": true,
+        "kycTier": "TIER_3_PRO",
+        "isDemo": true,
+        "createdAt": "2026-10-28T11:31:03.537Z",
+        "updatedAt": "2026-10-28T11:31:03.537Z"
+      }
+    ],
+    [
+      "demo-user-002",
+      {
+        "id": "demo-user-002",
+        "phone": "08020000002",
+        "email": "babajide.adeleke@tavi-tester.ng",
+        "demoTag": "@babajide",
+        "passwordHash": "$2a$10$wTqI3rC2tD5H2vYFv8k5nOUY8zY4W4m8m8m8m8m8m8m8m8m8m8m8m",
+        "pinHash": "$2a$10$wTqI3rC2tD5H2vYFv8k5nOUY8zY4W4m8m8m8m8m8m8m8m8m8m8m8m",
+        "investPinHash": "$2a$10$wTqI3rC2tD5H2vYFv8k5nOUY8zY4W4m8m8m8m8m8m8m8m8m8m8m8m",
+        "role": "USER",
+        "isPhoneVerified": true,
+        "isEmailVerified": true,
+        "kycTier": "TIER_2_VERIFIED",
+        "isDemo": true,
+        "createdAt": "2026-10-28T11:31:03.537Z",
+        "updatedAt": "2026-10-28T11:31:03.537Z"
+      }
+    ],
+    [
+      "demo-user-003",
+      {
+        "id": "demo-user-003",
+        "phone": "09030000003",
+        "email": "chioma.nwosu@tavi-tester.ng",
+        "demoTag": "@chioma",
+        "passwordHash": "$2a$10$wTqI3rC2tD5H2vYFv8k5nOUY8zY4W4m8m8m8m8m8m8m8m8m8m8m8m",
+        "pinHash": "$2a$10$wTqI3rC2tD5H2vYFv8k5nOUY8zY4W4m8m8m8m8m8m8m8m8m8m8m8m",
+        "investPinHash": "$2a$10$wTqI3rC2tD5H2vYFv8k5nOUY8zY4W4m8m8m8m8m8m8m8m8m8m8m8m",
+        "role": "USER",
+        "isPhoneVerified": true,
+        "isEmailVerified": true,
+        "kycTier": "TIER_2_VERIFIED",
+        "isDemo": true,
+        "createdAt": "2026-10-28T11:31:03.537Z",
+        "updatedAt": "2026-10-28T11:31:03.537Z"
+      }
+    ],
+    [
+      "user-1793187063676",
+      {
+        "id": "user-1793187063676",
+        "phone": "08111110001",
+        "email": "tester.alpha@tavi-sandbox.ng",
+        "demoTag": "@testerAlpha",
+        "passwordHash": "$2b$10$muQhRsFl/wUMkXGSzXcvi.zLqzaQspHkDGl/5SZRS2PRHL2SmconC",
+        "pinHash": "$2b$10$muQhRsFl/wUMkXGSzXcvi.zLqzaQspHkDGl/5SZRS2PRHL2SmconC",
+        "investPinHash": "$2b$10$muQhRsFl/wUMkXGSzXcvi.zLqzaQspHkDGl/5SZRS2PRHL2SmconC",
+        "role": "USER",
+        "isPhoneVerified": true,
+        "isEmailVerified": true,
+        "kycTier": "TIER_1_BASIC",
+        "isDemo": true,
+        "createdAt": "2026-10-28T11:31:03.676Z",
+        "updatedAt": "2026-10-28T11:31:03.676Z"
+      }
+    ],
+    [
+      "user-1793187063766",
+      {
+        "id": "user-1793187063766",
+        "phone": "08111110002",
+        "email": "tester.beta@tavi-sandbox.ng",
+        "demoTag": "@testerBeta",
+        "passwordHash": "$2b$10$1Nz0UIHfhnUApQaW6e/M/O5obY9DsjxEisx6Tn8q3PM2EFhLGV222",
+        "pinHash": "$2b$10$1Nz0UIHfhnUApQaW6e/M/O5obY9DsjxEisx6Tn8q3PM2EFhLGV222",
+        "investPinHash": "$2b$10$1Nz0UIHfhnUApQaW6e/M/O5obY9DsjxEisx6Tn8q3PM2EFhLGV222",
+        "role": "USER",
+        "isPhoneVerified": true,
+        "isEmailVerified": true,
+        "kycTier": "TIER_1_BASIC",
+        "isDemo": true,
+        "createdAt": "2026-10-28T11:31:03.766Z",
+        "updatedAt": "2026-10-28T11:31:03.766Z"
+      }
+    ]
+  ],
+  "profiles": [
+    [
+      "demo-user-001",
+      {
+        "id": "profile-001",
+        "userId": "demo-user-001",
+        "firstName": "Amara",
+        "lastName": "Okonkwo",
+        "displayName": "Amara Okonkwo",
+        "demoTag": "@amara",
+        "avatarUrl": null,
+        "address": "Victoria Island, Lagos, Nigeria",
+        "countryCode": "NG",
+        "currencyPreference": "NGN",
+        "createdAt": "2026-10-28T11:31:03.537Z",
+        "updatedAt": "2026-10-28T11:31:03.537Z"
+      }
+    ],
+    [
+      "demo-user-002",
+      {
+        "id": "profile-002",
+        "userId": "demo-user-002",
+        "firstName": "Babajide",
+        "lastName": "Adeleke",
+        "displayName": "Babajide Adeleke",
+        "demoTag": "@babajide",
+        "avatarUrl": null,
+        "address": "Ikeja GRA, Lagos, Nigeria",
+        "countryCode": "NG",
+        "currencyPreference": "NGN",
+        "createdAt": "2026-10-28T11:31:03.537Z",
+        "updatedAt": "2026-10-28T11:31:03.537Z"
+      }
+    ],
+    [
+      "demo-user-003",
+      {
+        "id": "profile-003",
+        "userId": "demo-user-003",
+        "firstName": "Chioma",
+        "lastName": "Nwosu",
+        "displayName": "Chioma Nwosu",
+        "demoTag": "@chioma",
+        "avatarUrl": null,
+        "address": "Lekki Phase 1, Lagos, Nigeria",
+        "countryCode": "NG",
+        "currencyPreference": "NGN",
+        "createdAt": "2026-10-28T11:31:03.537Z",
+        "updatedAt": "2026-10-28T11:31:03.537Z"
+      }
+    ],
+    [
+      "user-1793187063676",
+      {
+        "id": "profile-1793187063676",
+        "userId": "user-1793187063676",
+        "firstName": "TaviTester",
+        "lastName": "Alpha",
+        "displayName": "TaviTester Alpha",
+        "demoTag": "@testerAlpha",
+        "avatarUrl": null,
+        "address": "Lagos, Nigeria",
+        "countryCode": "NG",
+        "currencyPreference": "NGN",
+        "createdAt": "2026-10-28T11:31:03.676Z",
+        "updatedAt": "2026-10-28T11:31:03.676Z"
+      }
+    ],
+    [
+      "user-1793187063766",
+      {
+        "id": "profile-1793187063766",
+        "userId": "user-1793187063766",
+        "firstName": "TaviTester",
+        "lastName": "Beta",
+        "displayName": "TaviTester Beta",
+        "demoTag": "@testerBeta",
+        "avatarUrl": null,
+        "address": "Lagos, Nigeria",
+        "countryCode": "NG",
+        "currencyPreference": "NGN",
+        "createdAt": "2026-10-28T11:31:03.766Z",
+        "updatedAt": "2026-10-28T11:31:03.766Z"
+      }
+    ]
+  ],
+  "wallets": [
+    [
+      "demo-user-001_NGN",
+      {
+        "id": "wallet-ngn-001",
+        "userId": "demo-user-001",
+        "currency": "NGN",
+        "balanceMinor": 48525000,
+        "pendingMinor": 0,
+        "isDefault": true,
+        "isDemo": true,
+        "label": "Demo Funds (Simulated)",
+        "providerName": "Providus Bank",
+        "providerAccountNumber": "9920394811",
+        "provisioningStatus": "active"
+      }
+    ],
+    [
+      "demo-user-001_USD",
+      {
+        "id": "wallet-usd-001",
+        "userId": "demo-user-001",
+        "currency": "USD",
+        "balanceMinor": 142050,
+        "pendingMinor": 0,
+        "isDefault": false,
+        "isDemo": true,
+        "label": "Demo Funds (Simulated)",
+        "providerName": "Lead Bank (USA)",
+        "providerAccountNumber": "1029384756",
+        "provisioningStatus": "active"
+      }
+    ],
+    [
+      "demo-user-001_GBP",
+      {
+        "id": "wallet-gbp-001",
+        "userId": "demo-user-001",
+        "currency": "GBP",
+        "balanceMinor": 85000,
+        "pendingMinor": 0,
+        "isDefault": false,
+        "isDemo": true,
+        "label": "Demo Funds (Simulated)",
+        "providerName": "ClearBank UK",
+        "providerAccountNumber": "04928172",
+        "provisioningStatus": "active"
+      }
+    ],
+    [
+      "demo-user-001_EUR",
+      {
+        "id": "wallet-eur-001",
+        "userId": "demo-user-001",
+        "currency": "EUR",
+        "balanceMinor": 62000,
+        "pendingMinor": 0,
+        "isDefault": false,
+        "isDemo": true,
+        "label": "Demo Funds (Simulated)",
+        "providerName": "Banking Circle S.A.",
+        "providerAccountNumber": "DE89370400440532013000",
+        "provisioningStatus": "active"
+      }
+    ],
+    [
+      "demo-user-002_NGN",
+      {
+        "id": "wallet-ngn-002",
+        "userId": "demo-user-002",
+        "currency": "NGN",
+        "balanceMinor": 25000000,
+        "pendingMinor": 0,
+        "isDefault": true,
+        "isDemo": true,
+        "label": "Demo Funds (Simulated)",
+        "providerName": "Providus Bank",
+        "providerAccountNumber": "9920394822",
+        "provisioningStatus": "active"
+      }
+    ],
+    [
+      "demo-user-003_NGN",
+      {
+        "id": "wallet-ngn-003",
+        "userId": "demo-user-003",
+        "currency": "NGN",
+        "balanceMinor": 15000000,
+        "pendingMinor": 0,
+        "isDefault": true,
+        "isDemo": true,
+        "label": "Demo Funds (Simulated)",
+        "providerName": "Providus Bank",
+        "providerAccountNumber": "9920394833",
+        "provisioningStatus": "active"
+      }
+    ],
+    [
+      "user-1793187063676_NGN",
+      {
+        "id": "wallet-ngn-1793187063676",
+        "userId": "user-1793187063676",
+        "currency": "NGN",
+        "balanceMinor": 25000000,
+        "pendingMinor": 0,
+        "isDefault": true,
+        "isDemo": true,
+        "label": "Demo Funds (Simulated)",
+        "providerName": "Providus Bank",
+        "providerAccountNumber": "9997721722",
+        "provisioningStatus": "active"
+      }
+    ],
+    [
+      "user-1793187063766_NGN",
+      {
+        "id": "wallet-ngn-1793187063766",
+        "userId": "user-1793187063766",
+        "currency": "NGN",
+        "balanceMinor": 41000000,
+        "pendingMinor": 0,
+        "isDefault": true,
+        "isDemo": true,
+        "label": "Demo Funds (Simulated)",
+        "providerName": "Providus Bank",
+        "providerAccountNumber": "9955287528",
+        "provisioningStatus": "active"
+      }
+    ]
+  ],
+  "transactions": [
+    {
+      "id": "tx-reset-1793187063930",
+      "reference": "DEMO-RESET-063930",
+      "userId": "user-1793187063676",
+      "type": "DEPOSIT",
+      "direction": "CREDIT",
+      "amountMinor": 25000000,
+      "feeMinor": 0,
+      "currency": "NGN",
+      "status": "SUCCESSFUL",
+      "counterpartyName": "TAVI Demo Sandbox Authority",
+      "counterpartyAccount": "0000000000",
+      "counterpartyBank": "TAVI Central",
+      "narration": "Simulated Demo Funds Initial Grant",
+      "isDemo": true,
+      "createdAt": "2026-10-28T11:31:03.930Z"
+    },
+    {
+      "id": "tx-cr-1793187063907-end5",
+      "reference": "TAVI-TRF-063907-1175",
+      "userId": "user-1793187063766",
+      "type": "DEPOSIT",
+      "direction": "CREDIT",
+      "amountMinor": 10000000,
+      "feeMinor": 0,
+      "currency": "NGN",
+      "status": "SUCCESSFUL",
+      "counterpartyName": "TaviTester Alpha",
+      "counterpartyAccount": "9997721722",
+      "counterpartyBank": "Providus Bank",
+      "counterpartyTag": "@testerAlpha",
+      "narration": "Concurrent spike transfer #1",
+      "isDemo": true,
+      "createdAt": "2026-10-28T11:31:03.907Z",
+      "updatedAt": "2026-10-28T11:31:03.907Z"
+    },
+    {
+      "id": "tx-cr-1793187063894-hn4m",
+      "reference": "TAVI-TRF-063893-7926",
+      "userId": "user-1793187063766",
+      "type": "DEPOSIT",
+      "direction": "CREDIT",
+      "amountMinor": 1000000,
+      "feeMinor": 0,
+      "currency": "NGN",
+      "status": "SUCCESSFUL",
+      "counterpartyName": "TaviTester Alpha",
+      "counterpartyAccount": "9997721722",
+      "counterpartyBank": "Providus Bank",
+      "counterpartyTag": "@testerAlpha",
+      "narration": "Demo funds transfer",
+      "isDemo": true,
+      "createdAt": "2026-10-28T11:31:03.893Z",
+      "updatedAt": "2026-10-28T11:31:03.893Z"
+    },
+    {
+      "id": "tx-cr-1793187063840-jcgj",
+      "reference": "TAVI-TRF-063840-9463",
+      "userId": "user-1793187063766",
+      "type": "DEPOSIT",
+      "direction": "CREDIT",
+      "amountMinor": 5000000,
+      "feeMinor": 0,
+      "currency": "NGN",
+      "status": "SUCCESSFUL",
+      "counterpartyName": "TaviTester Alpha",
+      "counterpartyAccount": "9997721722",
+      "counterpartyBank": "Providus Bank",
+      "counterpartyTag": "@testerAlpha",
+      "narration": "UAT Acceptance milestone payment",
+      "isDemo": true,
+      "createdAt": "2026-10-28T11:31:03.840Z",
+      "updatedAt": "2026-10-28T11:31:03.840Z"
+    },
+    {
+      "id": "tx-init-1793187063766",
+      "reference": "DEMO-INIT-063766",
+      "userId": "user-1793187063766",
+      "type": "DEPOSIT",
+      "direction": "CREDIT",
+      "amountMinor": 25000000,
+      "feeMinor": 0,
+      "currency": "NGN",
+      "status": "SUCCESSFUL",
+      "counterpartyName": "TAVI Demo Sandbox Authority",
+      "counterpartyAccount": "0000000000",
+      "counterpartyBank": "TAVI Central",
+      "narration": "Simulated Demo Funds Initial Grant",
+      "isDemo": true,
+      "createdAt": "2026-10-28T11:31:03.766Z"
+    },
+    {
+      "id": "txn-001",
+      "reference": "TXN20261027001",
+      "userId": "demo-user-001",
+      "type": "TRANSFER",
+      "direction": "DEBIT",
+      "amountMinor": 2500000,
+      "feeMinor": 1000,
+      "currency": "NGN",
+      "status": "SUCCESSFUL",
+      "counterpartyName": "Babajide Adeleke",
+      "counterpartyAccount": "9920394822",
+      "counterpartyBank": "Providus Bank",
+      "narration": "Project milestone settlement",
+      "isDemo": true,
+      "createdAt": "2026-10-28T09:31:03.537Z"
+    },
+    {
+      "id": "txn-002",
+      "reference": "TXN20261027002",
+      "userId": "demo-user-001",
+      "type": "DEPOSIT",
+      "direction": "CREDIT",
+      "amountMinor": 5000000,
+      "feeMinor": 0,
+      "currency": "NGN",
+      "status": "SUCCESSFUL",
+      "counterpartyName": "Chioma Nwosu",
+      "counterpartyAccount": "9920394833",
+      "counterpartyBank": "Providus Bank",
+      "narration": "Consulting fees reimbursement",
+      "isDemo": true,
+      "createdAt": "2026-10-27T11:31:03.537Z"
+    },
+    {
+      "id": "txn-001-rec",
+      "reference": "TXN20261027001",
+      "userId": "demo-user-002",
+      "type": "DEPOSIT",
+      "direction": "CREDIT",
+      "amountMinor": 2500000,
+      "feeMinor": 0,
+      "currency": "NGN",
+      "status": "SUCCESSFUL",
+      "counterpartyName": "Amara Okonkwo",
+      "counterpartyAccount": "9920394811",
+      "counterpartyBank": "Providus Bank",
+      "narration": "Project milestone settlement",
+      "isDemo": true,
+      "createdAt": "2026-10-28T09:31:03.537Z"
+    },
+    {
+      "id": "txn-002-send",
+      "reference": "TXN20261027002",
+      "userId": "demo-user-003",
+      "type": "TRANSFER",
+      "direction": "DEBIT",
+      "amountMinor": 5000000,
+      "feeMinor": 1000,
+      "currency": "NGN",
+      "status": "SUCCESSFUL",
+      "counterpartyName": "Amara Okonkwo",
+      "counterpartyAccount": "9920394811",
+      "counterpartyBank": "Providus Bank",
+      "narration": "Consulting fees reimbursement",
+      "isDemo": true,
+      "createdAt": "2026-10-27T11:31:03.537Z"
+    }
+  ],
+  "beneficiaries": [],
+  "stocks": [
+    {
+      "symbol": "DANGCEM",
+      "name": "Dangote Cement Plc",
+      "sector": "Industrial Goods",
+      "priceMinor": 65000,
+      "dayChangePercent": 2.36,
+      "volume": 1420500
+    },
+    {
+      "symbol": "GTCO",
+      "name": "Guaranty Trust Holding Co.",
+      "sector": "Banking & Financial",
+      "priceMinor": 5210,
+      "dayChangePercent": 1.15,
+      "volume": 18940000
+    },
+    {
+      "symbol": "AIRTELAFRI",
+      "name": "Airtel Africa Plc",
+      "sector": "Telecommunications",
+      "priceMinor": 220000,
+      "dayChangePercent": -0.45,
+      "volume": 854000
+    },
+    {
+      "symbol": "MTNN",
+      "name": "MTN Nigeria Communications",
+      "sector": "Telecommunications",
+      "priceMinor": 21500,
+      "dayChangePercent": 3.12,
+      "volume": 6410000
+    },
+    {
+      "symbol": "ZENITHBANK",
+      "name": "Zenith Bank Plc",
+      "sector": "Banking & Financial",
+      "priceMinor": 4120,
+      "dayChangePercent": -1.05,
+      "volume": 22100000
+    }
+  ],
+  "indices": [
+    {
+      "symbol": "TAVI 15",
+      "name": "TAVI Top 15 Index",
+      "level": 1245.8,
+      "dayChangePercent": 1.42,
+      "constituentsCount": 15,
+      "methodology": "Free-float market capitalization weighted benchmark of the 15 most liquid NGX companies."
+    },
+    {
+      "symbol": "TAVI 30",
+      "name": "TAVI Broad Market 30 Index",
+      "level": 2180.4,
+      "dayChangePercent": 0.88,
+      "constituentsCount": 30,
+      "methodology": "Broad market equity benchmark covering top 30 liquid capitalization stocks."
+    },
+    {
+      "symbol": "TAVI DIV30",
+      "name": "TAVI Dividend 30 Index",
+      "level": 980.2,
+      "dayChangePercent": 1.12,
+      "constituentsCount": 30,
+      "methodology": "Tracks top 30 highest dividend-yielding equities on the Nigerian Exchange."
+    }
+  ],
+  "orders": [],
+  "supportCases": [],
+  "notifications": [
+    {
+      "id": "notif-1793187063907-y5yf",
+      "userId": "user-1793187063766",
+      "category": "TRANSACTIONS",
+      "title": "Demo Funds Received",
+      "message": "₦100,000.00 received from TaviTester Alpha (TAVI-TRF-063907-1175)",
+      "isRead": false,
+      "createdAt": "2026-10-28T11:31:03.907Z"
+    },
+    {
+      "id": "notif-1793187063894-9ow7",
+      "userId": "user-1793187063766",
+      "category": "TRANSACTIONS",
+      "title": "Demo Funds Received",
+      "message": "₦10,000.00 received from TaviTester Alpha (TAVI-TRF-063893-7926)",
+      "isRead": false,
+      "createdAt": "2026-10-28T11:31:03.893Z"
+    },
+    {
+      "id": "notif-1793187063840-n1kf",
+      "userId": "user-1793187063766",
+      "category": "TRANSACTIONS",
+      "title": "Demo Funds Received",
+      "message": "₦50,000.00 received from TaviTester Alpha (TAVI-TRF-063840-9463)",
+      "isRead": false,
+      "createdAt": "2026-10-28T11:31:03.840Z"
+    },
+    {
+      "id": "notif-001",
+      "userId": "demo-user-001",
+      "category": "TRANSACTIONS",
+      "title": "Transfer Received (Demo)",
+      "message": "₦50,000.00 simulated demo funds received from Chioma Nwosu",
+      "isRead": false,
+      "createdAt": "2026-10-28T10:31:03.537Z"
+    },
+    {
+      "id": "notif-002",
+      "userId": "demo-user-001",
+      "category": "SECURITY",
+      "title": "Successful Sign-in",
+      "message": "New sign-in detected on TAVI Demo Sandbox",
+      "isRead": true,
+      "createdAt": "2026-10-28T06:31:03.537Z"
+    }
+  ],
+  "auditLogs": [],
+  "idempotencyKeys": [
+    [
+      "IDEM-KEY-1793187063888",
+      {
+        "success": true,
+        "reference": "TAVI-TRF-063893-7926",
+        "transaction": {
+          "id": "tx-dr-1793187063893-2bwt",
+          "reference": "TAVI-TRF-063893-7926",
+          "userId": "user-1793187063676",
+          "type": "TRANSFER",
+          "direction": "DEBIT",
+          "amountMinor": 1000000,
+          "feeMinor": 1000,
+          "currency": "NGN",
+          "status": "SUCCESSFUL",
+          "counterpartyName": "TaviTester Beta",
+          "counterpartyAccount": "9955287528",
+          "counterpartyBank": "Providus Bank",
+          "counterpartyTag": "@testerBeta",
+          "narration": "Demo funds transfer",
+          "isDemo": true,
+          "createdAt": "2026-10-28T11:31:03.893Z",
+          "updatedAt": "2026-10-28T11:31:03.893Z"
+        },
+        "recipientTransaction": {
+          "id": "tx-cr-1793187063894-hn4m",
+          "reference": "TAVI-TRF-063893-7926",
+          "userId": "user-1793187063766",
+          "type": "DEPOSIT",
+          "direction": "CREDIT",
+          "amountMinor": 1000000,
+          "feeMinor": 0,
+          "currency": "NGN",
+          "status": "SUCCESSFUL",
+          "counterpartyName": "TaviTester Alpha",
+          "counterpartyAccount": "9997721722",
+          "counterpartyBank": "Providus Bank",
+          "counterpartyTag": "@testerAlpha",
+          "narration": "Demo funds transfer",
+          "isDemo": true,
+          "createdAt": "2026-10-28T11:31:03.893Z",
+          "updatedAt": "2026-10-28T11:31:03.893Z"
+        },
+        "newBalanceMinor": 18998000,
+        "recipientNewBalanceMinor": 31000000,
+        "message": "Successfully transferred ₦10000.00 demo funds to TaviTester Beta."
+      }
+    ]
+  ],
+  "savedAt": "2026-10-28T11:31:03.930Z"
+}

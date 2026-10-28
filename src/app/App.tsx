@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { HashRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AppProvider, useApp } from './AppContext';
 import { MobileShell } from '../components/layout/MobileShell';
 import { DesktopShell } from '../components/layout/DesktopShell';
@@ -38,7 +38,6 @@ function AuthGate({ children }: { children: React.ReactNode }) {
 }
 
 function AppRoutes() {
-  const { isAuthenticated } = useApp();
   const width = useWindowWidth();
   const isDesktop = width >= 1024;
 
@@ -128,9 +127,9 @@ function AppRoutes() {
 export function App() {
   return (
     <AppProvider>
-      <BrowserRouter>
+      <HashRouter>
         <AppRoutes />
-      </BrowserRouter>
+      </HashRouter>
     </AppProvider>
   );
 }

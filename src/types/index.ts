@@ -45,6 +45,7 @@ export interface User {
   id: string;
   firstName: string;
   lastName: string;
+  displayName?: string;
   email: string;
   phoneInput: string;           // Original input
   normalizedPhone: string;      // E.164 normalised
@@ -53,6 +54,8 @@ export interface User {
   avatarInitials: string;
   kycStatus: 'unverified' | 'pending' | 'verified' | 'rejected';
   createdAt: string;
+  demoTag?: string;
+  isDemo?: boolean;
 }
 
 // ─── Account ──────────────────────────────────────────────────────────────────
@@ -71,6 +74,7 @@ export interface Account {
   lastProviderCheck?: string;
   // Is the pattern matched exactly by provider?
   patternMatchConfirmed: boolean;
+  demoTag?: string;
 }
 
 // ─── Balance ──────────────────────────────────────────────────────────────────
@@ -81,6 +85,7 @@ export interface BalanceSnapshot {
   pending: number;
   currency: string;
   timestamp: string;
+  demoLabel?: string;
 }
 
 // ─── Transaction ──────────────────────────────────────────────────────────────
@@ -237,3 +242,74 @@ export type ServiceStatus =
   | 'available'
   | 'temporarily_unavailable'
   | 'disabled';
+
+// ─── Notifications ────────────────────────────────────────────────────────────
+export type NotificationCategory =
+  | 'transaction'
+  | 'security'
+  | 'bills'
+  | 'investments'
+  | 'account'
+  | 'reminders';
+
+export interface AppNotification {
+  id: string;
+  title: string;
+  message: string;
+  category: NotificationCategory;
+  timestamp: string;
+  read: boolean;
+  reference?: string;
+  amountKobo?: number;
+  actionUrl?: string;
+}
+
+// ─── Support Cases ────────────────────────────────────────────────────────────
+export interface SupportCaseUpdate {
+  timestamp: string;
+  message: string;
+  author: string;
+}
+
+export interface SupportCase {
+  id: string;
+  userId: string;
+  category: string;
+  subject: string;
+  description: string;
+  relatedTxReference?: string;
+  status: 'submitted' | 'under_review' | 'in_progress' | 'resolved' | 'closed';
+  createdAt: string;
+  reference: string;
+  updates: SupportCaseUpdate[];
+}
+
+// ─── Money Request (Request & Receive) ─────────────────────────────────────────
+export type RequestType = 'money' | 'airtime' | 'data' | 'link';
+
+export interface MoneyRequest {
+  id: string;
+  userId: string;
+  type: RequestType;
+  recipientIdentifier: string;
+  recipientName: string;
+  amountKobo?: number;
+  network?: string;
+  dataPackage?: string;
+  note?: string;
+  status: 'draft' | 'sent' | 'pending' | 'accepted' | 'paid' | 'declined' | 'expired';
+  createdAt: string;
+  reference: string;
+  shareUrl?: string;
+}
+
+// ─── FAQ ──────────────────────────────────────────────────────────────────────
+export interface FAQItem {
+  id: string;
+  category: string;
+  question: string;
+  answer: string;
+  keywords: string[];
+  relevantRoute?: string;
+}
+

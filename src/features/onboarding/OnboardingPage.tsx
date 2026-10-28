@@ -16,7 +16,7 @@ export function OnboardingPage() {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [loading, setLoading] = useState(false);
-  const { loginDemo } = useApp();
+  const { registerUser } = useApp();
   const navigate = useNavigate();
 
   const handlePhoneNext = () => {
@@ -36,8 +36,7 @@ export function OnboardingPage() {
     }
     setOtpError('');
     setLoading(true);
-    // Simulate verification delay
-    await new Promise((r) => setTimeout(r, 1200));
+    await new Promise((r) => setTimeout(r, 600));
     setLoading(false);
     setStep('name');
   };
@@ -45,8 +44,14 @@ export function OnboardingPage() {
   const handleComplete = async () => {
     if (!firstName.trim()) return;
     setLoading(true);
-    await new Promise((r) => setTimeout(r, 800));
-    loginDemo();
+    const cleanPhone = phone.trim();
+    await registerUser({
+      phone: cleanPhone,
+      firstName: firstName.trim(),
+      lastName: lastName.trim() || 'Tester',
+      demoTag: `@${firstName.toLowerCase()}${cleanPhone.slice(-3)}`,
+    });
+    setLoading(false);
     navigate('/');
   };
 

@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useApp } from '../../app/AppContext';
 import { formatAccountNumber } from '../../services/phoneUtils';
 import { useClipboard } from '../../hooks/useClipboard';
-import { PageHeader, Card, Button, InfoBanner, StatusBadge } from '../../components/ui';
+import { PageHeader, Card, Button, InfoBanner } from '../../components/ui';
 import { DemoChip } from '../../components/ui/DemoBanner';
 import type { AccountProvisioningStatus } from '../../types';
 
