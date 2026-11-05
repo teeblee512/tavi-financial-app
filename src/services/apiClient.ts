@@ -12,7 +12,7 @@ function getApiBaseUrl(): string {
       return 'http://localhost:5000/api/v1';
     }
   }
-  return 'https://tavi-backend-api.onrender.com/api/v1';
+  return 'https://tavi-backends-api.onrender.com/api/v1';
 }
 
 const API_BASE_URL = getApiBaseUrl();
