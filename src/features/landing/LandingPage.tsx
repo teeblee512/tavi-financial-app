@@ -23,11 +23,13 @@ export function LandingPage() {
       </header>
 
       {/* Hero Section */}
-      <section className="px-6 pt-16 pb-20 text-center max-w-4xl mx-auto flex flex-col items-center">
-        <span className="px-3.5 py-1 rounded-full bg-pale-mint text-primary-green text-xs font-bold tracking-wide uppercase mb-4">
+      <section className="relative overflow-hidden px-6 pt-20 pb-24 text-center max-w-5xl mx-auto flex flex-col items-center">
+        <div className="pointer-events-none absolute -top-24 -left-24 h-72 w-72 rounded-full bg-action-green/30 blur-3xl" />
+        <div className="pointer-events-none absolute -bottom-24 -right-24 h-80 w-80 rounded-full bg-royal/30 blur-3xl" />
+        <span className="relative px-4 py-1.5 rounded-full bg-brand-gradient text-white text-xs font-bold tracking-wider uppercase mb-5 shadow-glow">
           Nigeria's Modern Financial Super App
         </span>
-        <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight text-midnight-navy leading-tight">
+        <h1 className="relative text-5xl md:text-7xl font-extrabold tracking-tight leading-tight bg-brand-gradient bg-clip-text text-transparent">
           Move. Manage. Grow.
         </h1>
         <p className="mt-5 text-lg md:text-xl text-slate-600 max-w-2xl leading-relaxed">

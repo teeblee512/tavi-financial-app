@@ -19,6 +19,9 @@ import { supportRouter } from './routes/support.routes.js';
 import { notificationRouter } from './routes/notifications.routes.js';
 import { recipientRouter } from './routes/recipient.routes.js';
 import { sandboxRouter } from './routes/sandbox.routes.js';
+import { adminRouter } from './routes/admin.routes.js';
+import { adminUiRouter } from './routes/admin.ui.js';
+import { auditTrail } from './middleware/auditTrail.js';
 
 export function createApp(): Express {
   const app = express();
@@ -58,9 +61,14 @@ export function createApp(): Express {
   // OpenAPI Swagger Interactive Documentation
   app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
+  // Admin console (User Management, Audit, Reports)
+  app.use(adminUiRouter);
+
   // Mount API v1 Routes
   const v1 = express.Router();
+  v1.use(auditTrail);
   v1.use(healthRouter);
+  v1.use(adminRouter);
   v1.use(authRouter);
   v1.use(walletRouter);
   v1.use(transactionRouter);

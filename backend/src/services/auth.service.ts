@@ -166,6 +166,13 @@ export class AuthService {
 
     const { user: matchedUser, profile, wallet } = found;
 
+    if (matchedUser.status === 'SUSPENDED') {
+      const err: any = new Error('This account has been suspended. Please contact support.');
+      err.statusCode = 403;
+      err.code = 'ACCOUNT_SUSPENDED';
+      throw err;
+    }
+
     // Verify credentials
     const isPasswordValid = data.passwordOrPin && data.passwordOrPin.length > 0;
     if (!isPasswordValid) {

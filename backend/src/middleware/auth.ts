@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 import { config } from '../config/index.js';
+import { memoryStore } from '../services/db.service.js';
 
 export interface AuthUser {
   userId: string;
@@ -33,6 +34,14 @@ export function authenticate(req: Request, res: Response, next: NextFunction): v
   const token = authHeader.substring(7);
   try {
     const payload = jwt.verify(token, config.jwt.secret) as AuthUser;
+    const record = memoryStore.users.get(payload.userId);
+    if (record && record.status === 'SUSPENDED') {
+      res.status(403).json({
+        success: false,
+        error: { code: 'ACCOUNT_SUSPENDED', message: 'This account has been suspended.' },
+      });
+      return;
+    }
     req.user = payload;
     next();
   } catch (err: any) {

@@ -13,6 +13,16 @@ export const config = {
     refreshExpiresIn: process.env.REFRESH_TOKEN_EXPIRES_IN || '7d',
   },
   databaseUrl: process.env.DATABASE_URL || '',
+  admin: {
+    // Admin console key. In production set ADMIN_API_KEY in Render > Environment.
+    // If unset in production a random key is generated at startup and printed once in the logs.
+    apiKey:
+      process.env.ADMIN_API_KEY ||
+      (process.env.NODE_ENV === 'production'
+        ? `tavi-${Math.random().toString(36).slice(2)}${Math.random().toString(36).slice(2)}`
+        : 'tavi-admin-local'),
+    keyIsGenerated: !process.env.ADMIN_API_KEY && process.env.NODE_ENV === 'production',
+  },
   rateLimit: {
     windowMs: parseInt(process.env.RATE_LIMIT_WINDOW_MS || '900000', 10), // 15 mins
     maxRequests: parseInt(process.env.RATE_LIMIT_MAX_REQUESTS || '100', 10),

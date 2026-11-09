@@ -10,8 +10,9 @@
 
   html {
     font-family: 'Inter', system-ui, sans-serif;
-    background-color: #F8FAFC;
-    color: #0F172A;
+    background: radial-gradient(1100px 600px at 100% -10%, rgba(79,70,229,0.10), transparent 60%), radial-gradient(900px 500px at -10% 0%, rgba(0,196,125,0.12), transparent 60%), #F3F6FD;
+    background-attachment: fixed;
+    color: #0B1437;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
@@ -69,17 +70,17 @@
 
   /* Cards */
   .card {
-    @apply bg-white rounded-card border border-border-color shadow-sm;
+    @apply bg-white/90 backdrop-blur rounded-card border border-border-color shadow-soft transition-all duration-200 hover:shadow-lift hover:-translate-y-0.5;
   }
 
   .card-hero {
-    @apply bg-white rounded-hero border border-border-color shadow-md;
+    @apply bg-hero-gradient text-white rounded-hero shadow-lift;
   }
 
   /* Primary button */
   .btn-primary {
-    @apply bg-action-green text-white font-semibold rounded-btn py-3 px-6 transition-all duration-150
-           hover:bg-primary-green active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed
+    @apply bg-brand-gradient text-white font-semibold rounded-btn py-3 px-6 transition-all duration-150 shadow-glow
+           hover:brightness-110 hover:-translate-y-0.5 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed
            flex items-center justify-center gap-2 min-h-[52px];
   }
 
