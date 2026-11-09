@@ -27,7 +27,12 @@ export function createApp(): Express {
   const app = express();
 
   // Security Headers
-  app.use(helmet());
+  app.use(
+    helmet({
+      // Allows the admin console to load over plain http (localhost) as well as https
+      contentSecurityPolicy: { directives: { upgradeInsecureRequests: null } },
+    })
+  );
 
   // CORS Configuration
   app.use(
@@ -88,6 +93,7 @@ export function createApp(): Express {
       tagline: 'Move. Manage. Grow.',
       status: 'ONLINE',
       documentation: '/api/docs',
+      adminConsole: '/admin',
       health: `${config.apiPrefix}/health`,
     });
   });

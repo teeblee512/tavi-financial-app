@@ -28,3 +28,4 @@ export function recordAudit(entry: Omit<AuditEntry, 'id' | 'timestamp'>): AuditE
   saveStoreToDisk();
   return full;
 }
+

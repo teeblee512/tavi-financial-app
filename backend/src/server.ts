@@ -12,6 +12,12 @@ const server = app.listen(config.port, '0.0.0.0', () => {
   console.log(`API Base: http://localhost:${config.port}${config.apiPrefix}`);
   console.log(`API Docs: http://localhost:${config.port}/api/docs`);
   console.log(`Health Check: http://localhost:${config.port}${config.apiPrefix}/health`);
+  console.log(`Admin Console: http://localhost:${config.port}/admin`);
+  if (config.admin.keyIsGenerated) {
+    console.log(`ADMIN KEY (auto-generated, set ADMIN_API_KEY in Render > Environment to choose your own): ${config.admin.apiKey}`);
+  } else if (config.nodeEnv !== 'production') {
+    console.log(`Admin key (local dev): ${config.admin.apiKey}`);
+  }
   console.log(`=======================================================`);
 });
 

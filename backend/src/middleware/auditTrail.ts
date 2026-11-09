@@ -36,3 +36,4 @@ export function auditTrail(req: Request, res: Response, next: NextFunction): voi
   });
   next();
 }
+

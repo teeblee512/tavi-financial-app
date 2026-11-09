@@ -123,3 +123,4 @@ adminUiRouter.get('/admin/app.js', (_req, res) => {
   res.setHeader('Cache-Control', 'no-store');
   res.type('application/javascript').send(SCRIPT);
 });
+
